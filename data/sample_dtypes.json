@@ -1,0 +1,18 @@
+{
+    "column_1":[
+        "continuous",
+        "integer"
+    ],
+    "column_2":[
+        "nominal",
+        "text"
+    ],
+    "column_3":[
+        "nominal",
+        "integer"
+    ],
+    "column_4":[
+        "constant",
+        "float8"
+    ],
+}
