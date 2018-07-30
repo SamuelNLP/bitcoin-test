@@ -4,10 +4,10 @@ import time
 
 import psycopg2
 
+
 # helper function to send csv data into a postgresql database
 def csv_to_postgresql(csv_file, json_column_file, user, password, schema, table_name, time_it=True, log=True,
-                      host='localhost', dbname='postgres', port='5432', delimiter=','):
-
+                      host='localhost', dbname='postgres', port='5432', delimiter=',', header=True, log_ite=1000):
     start = time.time()
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}"
                             .format(host, dbname, user, password, port))
@@ -30,6 +30,9 @@ def csv_to_postgresql(csv_file, json_column_file, user, password, schema, table_
     with open(csv_file, 'r') as f:
         reader = csv.reader(f, delimiter=delimiter)
 
+        if header:
+            next(reader)
+
         for idx, row in enumerate(reader):
 
             query = """
@@ -40,9 +43,9 @@ def csv_to_postgresql(csv_file, json_column_file, user, password, schema, table_
 
             conn.commit()
 
-            if log and idx % 1000 == 0:
-                print("iteration " + str(idx))
+            if log and idx % log_ite == 0:
+                print("{}, iteration: {}".format(csv_file, idx), flush=True)
 
     end = time.time()
     if time_it:
-        print(end - start)
+        print('total time: ', end - start, 'seconds')
