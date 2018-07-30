@@ -1,0 +1,30 @@
+{
+    "date_":[
+        "timestamp",
+        "timestamp"
+    ],
+    "price":[
+        "continuous",
+        "float8"
+    ],
+    "open":[
+        "continuous",
+        "float8"
+    ],
+    "high":[
+        "continuous",
+        "float8"
+    ],
+    "low":[
+        "continuous",
+        "float8"
+    ],
+    "vol":[
+        "continuous",
+        "text"
+    ],
+    "change_percentage":[
+        "continuous",
+        "text"
+    ]
+}

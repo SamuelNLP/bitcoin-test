@@ -1,0 +1,34 @@
+{
+    "timestamp_value":[
+        "timestamp",
+        "bigint"
+    ],
+    "open":[
+        "continuous",
+        "float8"
+    ],
+    "high":[
+        "continuous",
+        "float8"
+    ],
+    "low":[
+        "continuous",
+        "float8"
+    ],
+    "close":[
+        "continuous",
+        "float8"
+    ],
+    "volume_btc":[
+        "continuous",
+        "float8"
+    ],
+    "volume_currency":[
+        "continuous",
+        "float8"
+    ],
+    "Weighted_Price":[
+        "continuous",
+        "float8"
+    ]
+}
