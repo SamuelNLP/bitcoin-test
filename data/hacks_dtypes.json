@@ -1,0 +1,22 @@
+{
+    "name":[
+        "string",
+        "text"
+    ],
+    "loss_crypto":[
+        "continuous",
+        "text"
+    ],
+    "loss_usd":[
+        "continuous",
+        "text"
+    ],
+    "date_":[
+        "datetime",
+        "timestamp"
+    ],
+    "source":[
+        "string",
+        "text"
+    ]
+}
