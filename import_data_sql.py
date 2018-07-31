@@ -44,8 +44,23 @@ def csv_to_postgresql(csv_file, json_column_file, user, password, schema, table_
             conn.commit()
 
             if log and idx % log_ite == 0:
-                print("{}, iteration: {}".format(csv_file, idx), flush=True)
+                print("{}, iteration: {}".format(csv_file, idx + 1), flush=True)
 
     end = time.time()
     if time_it:
         print('total time: ', end - start, 'seconds')
+
+if __name__ == "__main__":
+    print('Importing data to Postgresql')
+
+    # importing data from NASDAQ Composite Historical Data
+    csv_to_postgresql('data/NASDAQ Composite Historical Data.csv', 'data/stocks_dtypes.json', 'postgres',
+                      'postgres', 'public', 'nasdaq', dbname='bitcoin_test', log_ite=1000)
+
+    # importing data from S&P 500 Historical Data
+    csv_to_postgresql('data/S&P 500 Historical Data.csv', 'data/stocks_dtypes.json', 'postgres',
+                      'postgres', 'public', 'sp500', dbname='bitcoin_test', log_ite=1000)
+
+    # importing data from BTC_USD
+    csv_to_postgresql('data/BTC_USD.csv', 'data/BTC_USD_dtypes.json', 'postgres',
+                      'postgres', 'public', 'btc_usd', dbname='bitcoin_test', log_ite=1000000)
