@@ -42,8 +42,8 @@ for table in tables:
     df.rename(columns={'change_percentage':'perc_price', 'vol':'volume_currency'}, inplace=True)
 
     # check for nans
-    print('Missing values in columns:')
-    print(df.isnull().any())
+    # print('Missing values in columns:')
+    # print(df.isnull().any())
 
     data_types = {"date_":sqlalchemy.types.TIMESTAMP,
                   "price":sqlalchemy.types.FLOAT,
@@ -54,6 +54,8 @@ for table in tables:
                   "perc_price":sqlalchemy.types.FLOAT}
 
     df.to_sql('{}_clean'.format(table), con=con, if_exists='replace', dtype=data_types, index=False)
+
+    print(df.head())
 
 con.close()
 
