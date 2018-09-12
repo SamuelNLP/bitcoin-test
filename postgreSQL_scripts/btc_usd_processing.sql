@@ -1,4 +1,6 @@
 -- create table that has ratio measures from prices and volumes
+DROP TABLE IF EXISTS btc_usd_by_hour_agg;
+
 CREATE TABLE btc_usd_by_hour_agg
 	AS ( 
 	-- define an intermediate selection to create lag columns
@@ -17,7 +19,7 @@ CREATE TABLE btc_usd_by_hour_agg
 		-- possible aggregations
 		EXTRACT(dow FROM date_) AS weekday,
 		EXTRACT(DAY FROM date_) AS day_of_month,
-		EXTRACT(MONTH FROM date_) AS month_
+		EXTRACT(MONTH FROM date_) AS month_,
 		EXTRACT(HOUR FROM date_) AS hour_,
 		CASE WHEN EXTRACT(dow FROM date_) IN (0, 6) THEN 1
 			ELSE 0
@@ -30,6 +32,5 @@ CREATE TABLE btc_usd_by_hour_agg
 		date_
 	FROM btc_usd_by_hour
 	INNER JOIN lags USING(date_)
-	WHERE date_ > '2015-03-29 02:00:00'
 	ORDER BY date_ DESC
-)
+);

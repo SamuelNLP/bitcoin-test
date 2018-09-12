@@ -6,6 +6,7 @@ FROM btc_usd;
 
  UPDATE btc_usd
 SET date_ = to_timestamp( timestamp_value );
+
 -- create an index in date column
  CREATE INDEX btc_usd_date__idx ON
 public.btc_usd ( date_ );
@@ -44,7 +45,4 @@ CREATE VIEW btc_usd_date_dif AS (
 
 SELECT * FROM btc_usd_date_dif
 WHERE date_dif > 1
-
--- use only from 2015-03-29 02:00:00
-
 
