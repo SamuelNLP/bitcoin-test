@@ -17,6 +17,7 @@ CREATE TABLE btc_usd_by_hour_agg
 		-- possible aggregations
 		EXTRACT(dow FROM date_) AS weekday,
 		EXTRACT(DAY FROM date_) AS day_of_month,
+		EXTRACT(MONTH FROM date_) AS month_
 		EXTRACT(HOUR FROM date_) AS hour_,
 		CASE WHEN EXTRACT(dow FROM date_) IN (0, 6) THEN 1
 			ELSE 0
