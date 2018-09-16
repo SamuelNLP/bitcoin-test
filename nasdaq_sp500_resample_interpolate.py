@@ -1,10 +1,9 @@
-import pandas as pd
-import numpy as np
-from sqlalchemy import create_engine
-import sqlalchemy
-
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
+import sqlalchemy
+from sqlalchemy import create_engine
 
 sns.set()
 
@@ -18,9 +17,7 @@ tables = ['nasdaq_clean', 'sp500_clean']
 
 # check if I wnat a plot
 plotit = False
-
-if plotit:
-    fig, axes = plt.subplots(nrows=2, ncols=1)
+fig, axes = plt.subplots(nrows=2, ncols=1)
 
 for idx, table in enumerate(tables):
     rs = con.execute('SELECT * FROM {}'.format(table))
@@ -55,9 +52,9 @@ for idx, table in enumerate(tables):
     df_resample_interpolate['perc_price'] = [(x - y) / x if np.isnan(price) else perc_price
                                              for x, y, price, perc_price
                                              in zip(df_resample_interpolate['price'],
-                                             df_resample_interpolate['price'].shift(1),
-                                             df_resample['price'],
-                                             df_resample['perc_price'])]
+                                                    df_resample_interpolate['price'].shift(1),
+                                                    df_resample['price'],
+                                                    df_resample['perc_price'])]
 
     if plotit:
         # plot some results
@@ -70,16 +67,17 @@ for idx, table in enumerate(tables):
         axes[idx].set_title('{} price data'.format(table))
 
     # resend tables as table_interpolate
-    data_types = {"date_":sqlalchemy.types.TIMESTAMP,
-                  "price":sqlalchemy.types.FLOAT,
-                  "open":sqlalchemy.types.FLOAT,
-                  "high":sqlalchemy.types.FLOAT,
-                  "low":sqlalchemy.types.FLOAT,
-                  "volume_currency":sqlalchemy.types.FLOAT,
-                  "perc_price":sqlalchemy.types.FLOAT}
+    data_types = {"date_": sqlalchemy.types.TIMESTAMP,
+                  "price": sqlalchemy.types.FLOAT,
+                  "open": sqlalchemy.types.FLOAT,
+                  "high": sqlalchemy.types.FLOAT,
+                  "low": sqlalchemy.types.FLOAT,
+                  "volume_currency": sqlalchemy.types.FLOAT,
+                  "perc_price": sqlalchemy.types.FLOAT}
 
     df_resample_interpolate.reset_index(inplace=True)
-    df_resample_interpolate.to_sql('{}_interpolate'.format(table), con=con, if_exists='replace', dtype=data_types, index=False)
+    df_resample_interpolate.to_sql('{}_interpolate'.format(table), con=con, if_exists='replace', dtype=data_types,
+                                   index=False)
 
     print(df_resample.head(10))
     print(df_resample_interpolate.head(10))
@@ -88,8 +86,8 @@ if plotit:
     # get legend right
     h1, l1 = axes[0].get_legend_handles_labels()
     h2, l2 = axes[1].get_legend_handles_labels()
-    axes[0].legend(h1 , l1)
-    axes[1].legend(h2 , l2)
+    axes[0].legend(h1, l1)
+    axes[1].legend(h2, l2)
 
     axes[0].get_xaxis().set_visible(False)
     axes[0].tick_params(bottom=False, labelbottom=False)
@@ -97,4 +95,3 @@ if plotit:
     plt.show()
 
 con.close()
-

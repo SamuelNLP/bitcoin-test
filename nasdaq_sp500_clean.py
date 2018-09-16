@@ -1,6 +1,6 @@
 import pandas as pd
-from sqlalchemy import create_engine
 import sqlalchemy
+from sqlalchemy import create_engine
 
 # connection to database
 engine = create_engine('postgresql://postgres:postgres@localhost:5432/bitcoin_test')
@@ -22,7 +22,7 @@ for table in tables:
     df['change_percentage'] = pd.to_numeric(df['change_percentage'].str.strip('%')) / 100
 
     # repalce M (millions) and B (billions) by numbers in vol column
-    def replace_M_or_B(value):
+    def replace_b_or_b(value):
         if 'M' in value:
             value = float(value.strip('M')) * 1E6
         elif 'B' in value:
@@ -32,30 +32,30 @@ for table in tables:
 
         return value
 
+
     # if nasdaq process volume, else ignore
     if table == 'nasdaq':
-        df['vol'] = df['vol'].apply(replace_M_or_B)
+        df['vol'] = df['vol'].apply(replace_b_or_b)
     else:
         df.drop(columns='vol', inplace=True)
 
     # rename column to perc_price
-    df.rename(columns={'change_percentage':'perc_price', 'vol':'volume_currency'}, inplace=True)
+    df.rename(columns={'change_percentage': 'perc_price', 'vol': 'volume_currency'}, inplace=True)
 
     # check for nans
     # print('Missing values in columns:')
     # print(df.isnull().any())
 
-    data_types = {"date_":sqlalchemy.types.TIMESTAMP,
-                  "price":sqlalchemy.types.FLOAT,
-                  "open":sqlalchemy.types.FLOAT,
-                  "high":sqlalchemy.types.FLOAT,
-                  "low":sqlalchemy.types.FLOAT,
-                  "volume_currency":sqlalchemy.types.FLOAT,
-                  "perc_price":sqlalchemy.types.FLOAT}
+    data_types = {"date_": sqlalchemy.types.TIMESTAMP,
+                  "price": sqlalchemy.types.FLOAT,
+                  "open": sqlalchemy.types.FLOAT,
+                  "high": sqlalchemy.types.FLOAT,
+                  "low": sqlalchemy.types.FLOAT,
+                  "volume_currency": sqlalchemy.types.FLOAT,
+                  "perc_price": sqlalchemy.types.FLOAT}
 
     df.to_sql('{}_clean'.format(table), con=con, if_exists='replace', dtype=data_types, index=False)
 
     print(df.head())
 
 con.close()
-

@@ -1,9 +1,9 @@
-import pandas as pd
-import numpy as np
-from scipy.stats import kurtosis, skew
 from datetime import timedelta
+
+import numpy as np
+import pandas as pd
+from scipy.stats import kurtosis, skew
 from sqlalchemy import create_engine
-import sqlalchemy
 
 # connection to database
 engine = create_engine('postgresql://postgres:postgres@localhost:5432/bitcoin_test')
@@ -34,8 +34,8 @@ df_dates.columns = rs.keys()
 
 print(df_dates)
 
-for date_ in  pd.date_range(df_dates['min_'].values[0], df_dates['max_'].values[0]):
-# for date_ in pd.date_range('2011-12-31', '2012-01-01'):
+for date_ in pd.date_range(df_dates['min_'].values[0], df_dates['max_'].values[0]):
+    # for date_ in pd.date_range('2011-12-31', '2012-01-01'):
     rs = con.execute("""SELECT * FROM btc_usd
                         WHERE date_ BETWEEN '{}' AND '{}'""".format(date_, date_ + timedelta(days=1)))
 
@@ -61,8 +61,7 @@ for date_ in  pd.date_range(df_dates['min_'].values[0], df_dates['max_'].values[
                        mode_weighted_price = {}, kurtosis_weighted_price = {}, skewness_weighted_price = {}
                        WHERE date_ = '{}'""".format(median_value, mode_value, kurtosis_value, skewness_value, date_))
 
-#    print(df)
+    #    print(df)
     print(date_)
 
 con.close()
-
