@@ -13,7 +13,7 @@
     ],
     "date_":[
         "datetime",
-        "text"
+        "timestamp"
     ],
     "source":[
         "string",
