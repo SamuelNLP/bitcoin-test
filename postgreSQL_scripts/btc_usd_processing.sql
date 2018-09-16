@@ -51,6 +51,7 @@ CREATE TABLE btc_usd_by_day_agg
 		("close" - "open") / "close" AS perc_close_open, "open", "close",
 		(high - low) / high AS perc_high_low, high, low,
 		(weighted_price - lag_weighted_price) / lag_weighted_price AS perc_weighted_price, weighted_price,
+		std_weighted_price,
 		volume_btc, volume_currency,
 		-- possible aggregations
 		EXTRACT(dow FROM date_) AS weekday,

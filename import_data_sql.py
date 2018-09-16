@@ -54,6 +54,10 @@ if __name__ == "__main__":
     print('Importing data to Postgresql')
 
     # importing data from NASDAQ Composite Historical Data
+    csv_to_postgresql('data/hacks.csv', 'data/hacks_dtypes.json', 'postgres',
+                      'postgres', 'public', 'btc_hacks', dbname='bitcoin_test', log_ite=1000)
+
+    # importing data from NASDAQ Composite Historical Data
     csv_to_postgresql('data/NASDAQ Composite Historical Data.csv', 'data/stocks_dtypes.json', 'postgres',
                       'postgres', 'public', 'nasdaq', dbname='bitcoin_test', log_ite=1000)
 

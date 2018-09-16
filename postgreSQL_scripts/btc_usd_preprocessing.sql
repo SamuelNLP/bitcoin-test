@@ -1,18 +1,20 @@
 -- create a timestamp column date_ from the epoch data
- SELECT to_timestamp( timestamp_value ) AS date_, *
+SELECT to_timestamp( timestamp_value ) AS date_, *
 FROM btc_usd;
 
- ALTER TABLE btc_usd ADD COLUMN date_ TIMESTAMP;
+ALTER TABLE btc_usd DROP IF EXISTS date_;
 
- UPDATE btc_usd
+ALTER TABLE btc_usd ADD COLUMN date_ TIMESTAMP;
+
+UPDATE btc_usd
 SET date_ = to_timestamp( timestamp_value );
 
 -- create an index in date column
- CREATE INDEX btc_usd_date__idx ON
+CREATE INDEX btc_usd_date__idx ON
 public.btc_usd ( date_ );
 
 ----------------------- resample data by hour ------------------------
-DROP TABLE IF EXISTS btc_usd_by_hour;
+DROP TABLE IF EXISTS btc_usd_by_hour CASCADE;
 
 CREATE TABLE btc_usd_by_hour
   AS (
@@ -40,15 +42,15 @@ CREATE INDEX btc_usd_by_hour_date__idx ON
 public.btc_usd_by_hour ( date_ );
 
 -- check where the data is incomplete
-DROP VIEW IF EXISTS btc_usd_date_dif;
+DROP VIEW IF EXISTS btc_usd_by_hour_date_dif;
 
-CREATE VIEW btc_usd_date_dif AS (
+CREATE VIEW btc_usd_by_hour_date_dif AS (
 	SELECT DATE_PART('day', date_ - lag(date_) OVER (ORDER BY date_)) *  24 + DATE_PART('hour', date_ - lag(date_) OVER (ORDER BY date_)) AS date_dif, 
 	date_ 
 	FROM btc_usd_by_hour);
 
-SELECT * FROM btc_usd_date_dif
-WHERE date_dif > 1
+SELECT * FROM btc_usd_by_hour_date_dif
+WHERE date_dif > 1;
 
 ----------------------- resample data by day ------------------------
 DROP TABLE IF EXISTS btc_usd_by_day CASCADE;
@@ -80,12 +82,12 @@ CREATE INDEX btc_usd_by_day_date__idx ON
 public.btc_usd_by_day ( date_ );
 
 -- check where the data is incomplete
-DROP VIEW IF EXISTS btc_usd_date_dif;
+DROP VIEW IF EXISTS btc_usd_by_day_date_dif;
 
-CREATE VIEW btc_usd_date_dif AS (
+CREATE VIEW btc_usd_by_day_date_dif AS (
 	SELECT DATE_PART('day', date_ - lag(date_) OVER (ORDER BY date_)) AS date_dif, 
 	date_ 
 	FROM btc_usd_by_day);
 
-SELECT * FROM btc_usd_date_dif
-WHERE date_dif > 1
+SELECT * FROM btc_usd_by_day_date_dif
+WHERE date_dif > 1;
