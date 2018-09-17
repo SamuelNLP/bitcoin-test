@@ -53,14 +53,6 @@ CREATE TABLE btc_usd_by_day_agg
 		(weighted_price - lag_weighted_price) / lag_weighted_price AS perc_weighted_price, weighted_price,
 		std_weighted_price,
 		volume_btc, volume_currency,
-		-- possible aggregations
-		EXTRACT(dow FROM date_) AS weekday,
-		EXTRACT(DAY FROM date_) AS day_of_month,
-		EXTRACT(MONTH FROM date_) AS month_,
-		CASE WHEN EXTRACT(dow FROM date_) IN (0, 6) THEN 1
-			ELSE 0
-		END AS weekend,
-		EXTRACT(YEAR FROM date_) AS year_,
 		-- date as reference
 		date_
 	FROM btc_usd_by_day
