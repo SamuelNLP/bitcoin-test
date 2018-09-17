@@ -12,7 +12,7 @@ CREATE TABLE nasdaq_agg
 		volume_currency,
 		-- date as reference
 		date_
-	FROM nasdaq_clean_interpolate
+	FROM nasdaq_clean_regression
 	ORDER BY date_ DESC
 );
 
@@ -26,6 +26,6 @@ CREATE TABLE sp500_agg
 		perc_price, price,
 		-- date as reference
 		date_
-	FROM sp500_clean_interpolate
+	FROM sp500_clean_regression
 	ORDER BY date_ DESC
 );
