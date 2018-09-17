@@ -10,14 +10,6 @@ CREATE TABLE nasdaq_agg
 		(high - low) / high AS perc_high_low, high, low,
 		perc_price, price,
 		volume_currency,
-		-- possible aggregations
-		EXTRACT(dow FROM date_) AS weekday,
-		EXTRACT(DAY FROM date_) AS day_of_month,
-		EXTRACT(MONTH FROM date_) AS month_,
-		CASE WHEN EXTRACT(dow FROM date_) IN (0, 6) THEN 1
-			ELSE 0
-		END AS weekend,
-		EXTRACT(YEAR FROM date_) AS year_,
 		-- date as reference
 		date_
 	FROM nasdaq_clean_interpolate
@@ -32,14 +24,6 @@ CREATE TABLE sp500_agg
 		"open",
 		(high - low) / high AS perc_high_low, high, low,
 		perc_price, price,
-		-- possible aggregations
-		EXTRACT(dow FROM date_) AS weekday,
-		EXTRACT(DAY FROM date_) AS day_of_month,
-		EXTRACT(MONTH FROM date_) AS month_,
-		CASE WHEN EXTRACT(dow FROM date_) IN (0, 6) THEN 1
-			ELSE 0
-		END AS weekend,
-		EXTRACT(YEAR FROM date_) AS year_,
 		-- date as reference
 		date_
 	FROM sp500_clean_interpolate
