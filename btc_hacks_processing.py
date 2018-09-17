@@ -1,9 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import sqlalchemy
-from sklearn import linear_model
 from sqlalchemy import create_engine
 
 sns.set()
@@ -70,6 +68,6 @@ data_types = {"date_": sqlalchemy.types.TIMESTAMP,
               "days_without_hacks": sqlalchemy.types.FLOAT}
 
 df_resample.to_sql('{}_clean_resample'.format(table), con=con, if_exists='replace', dtype=data_types,
-                              index=False)
+                   index=False)
 
 con.close()
