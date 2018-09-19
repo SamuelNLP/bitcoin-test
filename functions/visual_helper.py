@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import seaborn as sns
 
 sns.set()
+
 
 # define ecdf
 def ecdf(data):
@@ -62,9 +62,9 @@ def hist_ecdf(data, name: str, ecdf_theor=True, percentiles=(2.5, 25, 50, 75, 97
     if plot_percentiles:
         plt.plot(ptiles_data, percentiles / 100, marker='D', color='red',
                  linestyle='none')
-        for id in range(len(percentiles)):
-            plt.gca().text(ptiles_data[id], percentiles[id] / 100 - 0.1, str(np.round(ptiles_data[id], 2)),
-                        ha='left')
+        for id_ in range(len(percentiles)):
+            plt.gca().text(ptiles_data[id_], percentiles[id_] / 100 - 0.1, str(np.round(ptiles_data[id_], 2)),
+                           ha='left')
 
     if savefig:
         plt.savefig(pathsave + '/' + name + '_ecdf.png')
