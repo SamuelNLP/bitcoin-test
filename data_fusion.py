@@ -50,6 +50,9 @@ data['day_of_month'] = data['date_'].dt.day
 data['month'] = data['date_'].dt.month
 data['year'] = data['date_'].dt.year
 data['weekend'] = data['date_'].dt.weekday > 4
+data['month_area'] = pd.cut(data['day_of_month'], bins=4, labels=[0.25, 0.5, 0.75, 1])
+data['year_area'] = pd.cut(data['month'], bins=4, labels=[0.25, 0.5, 0.75, 1])
+
 
 data.sort_values(by='date_', inplace=True)
 
