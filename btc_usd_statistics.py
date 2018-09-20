@@ -16,13 +16,13 @@ rs = con.execute("""SELECT date_trunc( 'day', min(date_)) AS min_,
                            date_trunc( 'day', max(date_)) AS max_ FROM btc_usd""")
 
 # drop statistics columns and recreate them
-con.execute("""ALTER TABLE btc_usd_by_day_agg
+con.execute("""ALTER TABLE btc_usd_by_day
                DROP IF EXISTS median_weighted_price, 
                DROP IF EXISTS mode_weighted_price,
                DROP IF EXISTS kurtosis_weighted_price, 
                DROP IF EXISTS skewness_weighted_price;
                
-               ALTER TABLE btc_usd_by_day_agg
+               ALTER TABLE btc_usd_by_day
                ADD COLUMN median_weighted_price float8, 
                ADD COLUMN mode_weighted_price float8,
                ADD COLUMN kurtosis_weighted_price float8, 
@@ -57,7 +57,7 @@ for date_ in pd.date_range(df_dates['min_'].values[0], df_dates['max_'].values[0
         kurtosis_value = kurtosis(df['weighted_price'])
         skewness_value = skew(df['weighted_price'])
 
-        con.execute("""UPDATE btc_usd_by_day_agg SET median_weighted_price = {},
+        con.execute("""UPDATE btc_usd_by_day SET median_weighted_price = {},
                        mode_weighted_price = {}, kurtosis_weighted_price = {}, skewness_weighted_price = {}
                        WHERE date_ = '{}'""".format(median_value, mode_value, kurtosis_value, skewness_value, date_))
 
